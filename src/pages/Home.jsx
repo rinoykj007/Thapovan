@@ -142,7 +142,7 @@ export default function Home() {
               <div className="relative">
                 <div className="relative z-10 w-72 h-72 mx-auto rounded-full overflow-hidden border-4 border-emerald-400/30 shadow-2xl transform rotate-3">
                   <img
-                    src="https://images.unsplash.com/photo-1527525443983-6e60c75fff46?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=770"
+                    src="https://api.imghippo.com/files/hZvg8626PEg.jpg"
                     alt="Spiritual Mandala"
                     className="w-full h-full object-cover"
                     style={{
