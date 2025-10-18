@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { format } from "date-fns";
 import { Star, HelpCircle } from "lucide-react";
+import { submitToGoogleSheets } from "../utils/googleSheets";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function Booking() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -15,7 +18,83 @@ export default function Booking() {
     email: "",
     phone: "",
     travelMode: "",
+    services: "",
+    notes: "",
   });
+
+  const [completedSteps, setCompletedSteps] = useState({
+    date: false,
+    time: false,
+    name: false,
+    email: false,
+    phone: false,
+    travelMode: false,
+    notes: false,
+  });
+
+  // Update completed steps when form data changes
+  useEffect(() => {
+    setCompletedSteps({
+      date: selectedDate !== null,
+      time: selectedTime !== "",
+      name: formData.name.trim() !== "",
+      email: formData.email.trim() !== "",
+      phone: formData.phone.trim() !== "",
+      travelMode: formData.travelMode !== "",
+      notes: formData.notes ? formData.notes.trim() !== "" : false,
+    });
+  }, [selectedDate, selectedTime, formData]);
+
+  const totalCompleted = Object.values(completedSteps).filter(Boolean).length;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleSaveAndContinue = async () => {
+    if (isSubmitting) return; // Prevent multiple submissions
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    try {
+      const formDataToSave = {
+        date: selectedDate.toISOString().split("T")[0], // Format as YYYY-MM-DD
+        time: selectedTime,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        travelMode: formData.travelMode,
+        services: formData.services || "N/A",
+        notes: formData.notes || "N/A",
+        notifyMe: notifyMe,
+      };
+
+      console.log("Saving form data:", formDataToSave);
+
+      const result = await submitToGoogleSheets(formDataToSave);
+
+      if (result.success) {
+        console.log("Successfully saved to Google Sheets! Row:", result.row);
+        setSubmitSuccess(true);
+        // Optionally reset form or navigate to next step
+      } else {
+        console.error("Failed to save to Google Sheets:", result.error);
+        const errorMsg =
+          typeof result.error === "string"
+            ? result.error
+            : "Failed to save your booking. Please try again.";
+        setSubmitError(errorMsg);
+      }
+    } catch (error) {
+      console.error("Error saving form data:", error);
+      const errorMsg = error.message || "An error occurred. Please try again.";
+      setSubmitError(errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const morningSlots = [
     "9:15 AM",
@@ -121,14 +200,33 @@ export default function Booking() {
               <label htmlFor="phone" className="block text-white text-sm mb-1">
                 Phone Number
               </label>
-              <input
-                type="tel"
-                id="phone"
+              <PhoneInput
+                country={"in"}
                 value={formData.phone}
-                onChange={(e) =>
-                  setFormData({ ...formData, phone: e.target.value })
-                }
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-teal-500"
+                onChange={(phone) => setFormData({ ...formData, phone: phone })}
+                inputStyle={{
+                  width: "100%",
+                  backgroundColor: "rgba(51, 65, 85, 0.5)",
+                  border: "1px solid rgb(71, 85, 105)",
+                  borderRadius: "0.5rem",
+                  padding: "0.5rem 3rem",
+                  color: "white",
+                  fontSize: "0.875rem",
+                }}
+                buttonStyle={{
+                  backgroundColor: "rgba(51, 65, 85, 0.5)",
+                  border: "1px solid rgb(71, 85, 105)",
+                  borderRadius: "0.5rem 0 0 0.5rem",
+                }}
+                dropdownStyle={{
+                  backgroundColor: "rgb(30, 41, 59)",
+                  color: "white",
+                }}
+                searchStyle={{
+                  backgroundColor: "rgb(51, 65, 85)",
+                  color: "white",
+                }}
+                enableSearch={true}
                 placeholder="Enter your phone number"
               />
             </div>
@@ -164,8 +262,8 @@ export default function Booking() {
             </div>
             <div>
               <label
-                htmlFor="travel"
-                className="block text-slate-400 text-sm mb-1"
+                htmlFor="services"
+                className="block text-white text-sm mb-1"
               >
                 Services
               </label>
@@ -177,13 +275,16 @@ export default function Booking() {
                 }
                 className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-teal-500"
               >
-                <option value="car" className="bg-slate-800">
-                  service 1
+                <option value="" className="bg-slate-800">
+                  Select service
                 </option>
-                <option value="public" className="bg-slate-800">
-                  service 2
+                <option value="service1" className="bg-slate-800">
+                  Service 1
                 </option>
-                <option value="walk" className="bg-slate-800">
+                <option value="service2" className="bg-slate-800">
+                  Service 2
+                </option>
+                <option value="additional" className="bg-slate-800">
                   Additional optional services
                 </option>
               </select>
@@ -207,9 +308,9 @@ export default function Booking() {
           </h2>
           <div className="flex items-center gap-4">
             <span className="text-white text-sm font-semibold">
-              75% COMPLETED
+              {Math.round((totalCompleted / 7) * 100)}% COMPLETED
             </span>
-            <span className="text-white text-sm">5/7</span>
+            <span className="text-white text-sm">{totalCompleted}/7</span>
           </div>
         </div>
 
@@ -218,8 +319,8 @@ export default function Booking() {
           {[1, 2, 3, 4, 5, 6, 7].map((step) => (
             <div
               key={step}
-              className={`h-1 flex-1 rounded-full ${
-                step <= 5 ? "bg-teal-500" : "bg-slate-600"
+              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                step <= totalCompleted ? "bg-teal-500" : "bg-slate-600"
               }`}
             />
           ))}
@@ -367,6 +468,21 @@ export default function Booking() {
           </div>
         </div>
 
+        {/* Notes Field */}
+        <div className="mt-6">
+          <label className="block text-white font-medium text-sm sm:text-base mb-2">
+            Additional Notes (Optional)
+          </label>
+          <textarea
+            value={formData.notes || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, notes: e.target.value })
+            }
+            className="w-full bg-slate-800/50 text-white rounded-lg p-3 border border-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors min-h-[100px]"
+            placeholder="Any special requests or additional information..."
+          />
+        </div>
+
         {/* Bottom Actions */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-700/50">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
@@ -384,11 +500,30 @@ export default function Booking() {
             </label>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            {/* Feedback Messages */}
+            {submitError && (
+              <div className="w-full sm:w-auto px-4 py-2 bg-red-500/20 border border-red-500 text-red-300 rounded-lg text-sm">
+                {submitError}
+              </div>
+            )}
+            {submitSuccess && (
+              <div className="w-full sm:w-auto px-4 py-2 bg-green-500/20 border border-green-500 text-green-300 rounded-lg text-sm">
+                Booking saved successfully!
+              </div>
+            )}
             <button className="px-4 sm:px-6 py-2 bg-slate-700/50 text-white rounded-lg hover:bg-slate-700 transition-colors w-full sm:w-auto">
               Back
             </button>
-            <button className="px-4 sm:px-6 py-2 bg-white text-slate-900 rounded-lg hover:bg-slate-100 transition-colors font-medium w-full sm:w-auto">
-              Save and Continue
+            <button
+              onClick={handleSaveAndContinue}
+              disabled={isSubmitting}
+              className={`px-4 sm:px-6 py-2 ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-slate-100"
+              } text-slate-900 rounded-lg transition-colors font-medium w-full sm:w-auto`}
+            >
+              {isSubmitting ? "Saving..." : "Save and Continue"}
             </button>
           </div>
         </div>
