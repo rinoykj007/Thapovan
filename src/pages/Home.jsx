@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import img_1 from "../components/imgs/image_1.jpg";
 
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -36,7 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-transparent">
+    <div className="relative min-h-screen w-full overflow-hidden bg-white">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"
@@ -59,28 +60,34 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               <motion.div
-                className="inline-block px-4 py-1.5 bg-emerald-500/10 rounded-full mb-6"
+                className="inline-block px-4 py-1.5 rounded-full mb-6"
+                style={{ backgroundColor: "rgba(230, 126, 34, 0.1)" }}
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <span className="text-emerald-400 text-sm font-medium">
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: "#ffff" }}
+                >
                   Sacred Grounds Since 1025 AD
                 </span>
               </motion.div>
 
               <motion.h1
-                className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight"
+                className="text-4xl sm:text-5xl font-bold mb-6 leading-tight"
+                style={{ color: "#EBD5AB" }}
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
                 Discover the{" "}
-                <span className="text-emerald-400">Divine Essence</span>
+                <span style={{ color: "#E67E22" }}>Divine Essence</span>
               </motion.h1>
 
               <motion.p
-                className="text-lg text-gray-300 mb-8 max-w-md mx-auto lg:mx-0"
+                className="text-lg mb-8 max-w-md mx-auto lg:mx-0"
+                style={{ color: "#fff" }}
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -98,7 +105,8 @@ export default function Home() {
               >
                 <motion.button
                   onClick={() => navigate("/booking")}
-                  className="relative px-6 py-3 bg-emerald-500 text-white font-medium rounded-full overflow-hidden group"
+                  className="relative px-6 py-3 text-white font-medium rounded-full overflow-hidden group"
+                  style={{ backgroundColor: "#E67E22" }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -118,12 +126,18 @@ export default function Home() {
                       />
                     </svg>
                   </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      background: "linear-gradient(to right, #8BAE66, #628141)",
+                    }}
+                  ></span>
                 </motion.button>
 
                 <motion.button
                   onClick={() => {}}
-                  className="px-6 py-3 text-gray-300 font-medium rounded-full border border-gray-700 hover:bg-white/5 transition-colors"
+                  className="px-6 py-3 font-medium rounded-full border transition-colors"
+                  style={{ color: "#fff", borderColor: "#8BAE66" }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -140,7 +154,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="relative">
-                <div className="relative z-10 w-72 h-72 mx-auto rounded-full overflow-hidden border-4 border-emerald-400/30 shadow-2xl transform rotate-3">
+                <div
+                  className="relative z-10 w-72 h-72 mx-auto rounded-full overflow-hidden border-4 shadow-2xl transform rotate-3"
+                  style={{ borderColor: "rgba(230, 126, 34, 0.3)" }}
+                >
                   <img
                     src="https://api.imghippo.com/files/hZvg8626PEg.jpg"
                     alt="Spiritual Mandala"
@@ -150,14 +167,32 @@ export default function Home() {
                       filter: "brightness(1.05) contrast(1.1)",
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-purple-500/10 rounded-full"></div>
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom right, rgba(230, 126, 34, 0.1), rgba(139, 174, 102, 0.1))",
+                    }}
+                  ></div>
                   <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
                 </div>
 
                 {/* Decorative Elements */}
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl"></div>
-                <div className="absolute -top-6 -right-6 w-40 h-40 bg-purple-500/10 rounded-full blur-xl"></div>
-                <div className="absolute top-1/2 -right-8 w-16 h-1 bg-gradient-to-l from-emerald-400/30 to-transparent rounded-full transform -rotate-45"></div>
+                <div
+                  className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full blur-xl"
+                  style={{ backgroundColor: "rgba(139, 174, 102, 0.1)" }}
+                ></div>
+                <div
+                  className="absolute -top-6 -right-6 w-40 h-40 rounded-full blur-xl"
+                  style={{ backgroundColor: "rgba(230, 126, 34, 0.1)" }}
+                ></div>
+                <div
+                  className="absolute top-1/2 -right-8 w-16 h-1 rounded-full transform -rotate-45"
+                  style={{
+                    background:
+                      "linear-gradient(to left, rgba(230, 126, 34, 0.3), transparent)",
+                  }}
+                ></div>
               </div>
             </motion.div>
           </div>
@@ -177,17 +212,25 @@ export default function Home() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/5 hover:border-emerald-400/20 transition-all duration-300"
+                className="flex flex-col items-center justify-center backdrop-blur-sm p-4 rounded-xl text-center border transition-all duration-300"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.05)",
+                }}
                 whileHover={{
                   y: -4,
                   backgroundColor: "rgba(255, 255, 255, 0.03)",
+                  borderColor: "rgba(230, 126, 34, 0.2)",
                 }}
               >
                 <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-xl font-bold text-emerald-400">
+                <div className="text-xl font-bold" style={{ color: "#fff" }}>
                   {stat.number}
                 </div>
-                <div className="text-xs text-gray-400 font-medium">
+                <div
+                  className="text-xs font-medium"
+                  style={{ color: "#8BAE66" }}
+                >
                   {stat.label}
                 </div>
               </motion.div>

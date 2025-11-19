@@ -255,6 +255,9 @@ export default function Booking() {
                 <option value="taxi" className="bg-slate-800">
                   Taxi
                 </option>
+                <option value="flight" className="bg-slate-800">
+                  Flight
+                </option>
                 <option value="walk" className="bg-slate-800">
                   Walking
                 </option>
