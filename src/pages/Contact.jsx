@@ -104,9 +104,10 @@ export default function Contact() {
       ),
       title: "Visit Us",
       details: [
-        "Shri Krishna Mandir Tapovan",
-        "Amberi, Maharashtra",
-        "India - 416519",
+        "Tapovan, Shripad Seva Mandal",
+        "Shri Krushna Mandir, Post - Ghawnale",
+        "Tal - Kudal, Dist - Sindhudurg",
+        "Maharashtra - 416520",
       ],
     },
     {
