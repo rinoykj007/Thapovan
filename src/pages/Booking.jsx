@@ -5,7 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { format } from "date-fns";
 import { Star, HelpCircle } from "lucide-react";
-import { submitToGoogleSheets } from "../utils/googleSheets";
+import { submitToGoogleSheets, sendWhatsAppToAdmin } from "../utils/googleSheets";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -78,7 +78,9 @@ export default function Booking() {
       if (result.success) {
         console.log("Successfully saved to Google Sheets! Row:", result.row);
         setSubmitSuccess(true);
-        // Optionally reset form or navigate to next step
+
+        // Send WhatsApp notification to admin with all booking details
+        sendWhatsAppToAdmin(formDataToSave);
       } else {
         console.error("Failed to save to Google Sheets:", result.error);
         const errorMsg =
