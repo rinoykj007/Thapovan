@@ -94,7 +94,7 @@ export default function About() {
               </h2>
               <div className="space-y-4" style={{ color: '#4a5568' }}>
                 <p className="text-lg leading-relaxed">
-                  Thapovan stands as a testament to centuries of spiritual devotion and cultural heritage.
+                  Tapovan stands as a testament to centuries of spiritual devotion and cultural heritage.
                   Founded in 1025 AD, our sacred temple has been a beacon of light for seekers of truth
                   and divine wisdom.
                 </p>
