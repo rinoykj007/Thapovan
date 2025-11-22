@@ -104,9 +104,9 @@ export default function Contact() {
       ),
       title: "Visit Us",
       details: [
-        "Tapovan Temple",
-        "Sacred Valley Road",
-        "Kerala, India - 695001",
+        "Shri Krishna Mandir Tapovan",
+        "Amberi, Maharashtra",
+        "India - 416519",
       ],
     },
     {
@@ -455,14 +455,14 @@ export default function Contact() {
             className="rounded-2xl overflow-hidden shadow-xl"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.0876036584!2d76.9366!3d8.4875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwMjknMTUuMCJOIDc2wrA1NicxMS44IkU!5e0!3m2!1sen!2sin!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3820.5!2d74.0!3d16.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDQyJzAwLjAiTiA3NMKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
               width="100%"
               height="450"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Tapovan Temple Location"
+              title="Shri Krishna Mandir Tapovan Location"
             />
           </motion.div>
         </div>
